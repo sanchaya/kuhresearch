@@ -81,48 +81,14 @@
 </head>
 <body>
     <div class="filter-menu">
-        <!-- Filter items for each column -->
-        <!-- <div class="filter-item" id="filter-serial-no">
-            ಕ್ರ ಸಂ
-            <div class="filter-options">
-                
-            </div>
-        </div> -->
-        <!-- <div class="filter-item" id="filter-title">
-           <button> <strong>ಶೀರ್ಷಿಕೆ</strong></button>
-            <div class="filter-options" onmouseleave="resetOptions('filter-title-options', 'more-options-btn')">
-                <input type="text" placeholder="Search..." oninput="filterOptions('filter-title-input', 'filter-title-options')">
-                <div id="filter-title-options">
-             
-                </div>
-                
-                
-            </div>
-        </div> -->
-        <!-- <div class="filter-item" id="filter-researchers">
-            <button ><strong>ಸಂಶೋಧಕರು</strong></button>
-            <div class="filter-options">
-              
-            </div>
-        </div>
-        <div class="filter-item" id="filter-guides">
-            <button><strong>ಮಾರ್ಗದರ್ಶಕರು</strong></button>
-            <div class="filter-options">
-              
-            </div>
-        </div> -->
+       
         <div class="filter-item" id="filter-department">
             ವಿಭಾಗ
             <div class="filter-options">
-                <!-- Checkboxes will be appended here by JavaScript -->
+                <!-- Checkboxes will be appended here -->
             </div>
         </div>
-        <!-- <div class="filter-item" id="filter-year">
-            <button> <strong>Year</strong></button>
-            <div class="filter-options">
-              
-            </div>
-        </div> -->
+        
     </div>
     <div class="table-container">
         <input type="text" id="searchBar" placeholder="Search...">
@@ -139,7 +105,7 @@
             </tr>
         </thead>
         <tbody id="data-table-body">
-            <!-- Rows will be appended here by JavaScript -->
+            <!-- Rows will be appended here -->
         </tbody>
    
     </table>
@@ -12775,14 +12741,14 @@ researchData.forEach((data, index) => {
     if (data && typeof data === 'object') {
         const row = document.createElement('tr');
         
-        // Create cells and append data
+      
         Object.values(data).forEach(value => {
             const cell = document.createElement('td');
             cell.textContent = value;
             row.appendChild(cell);
         });
         
-        // Append row to the table body
+       
         tableBody.appendChild(row);
     } else {
         console.warn(`Skipping invalid data at index ${index}:`, data);
@@ -12798,25 +12764,20 @@ const isValidKannada = (value) => {
         const kannadaRegex = /^[\u0C80-\u0CFF\s]+$/;
         return kannadaRegex.test(value.trim());
     };
-    // const generateUniqueOptions = (columnKey) => {
-    //     return [...new Set(researchData
-    //         .filter(item => item && item[columnKey] !== undefined && isValidKannada(item[columnKey]))  
-    //         .map(item => item[columnKey])
-    //     )];
-    // };
+  
 
     const standardizeKannadaDepartment = (departmentName) => {
-    return departmentMappingKannada[departmentName] || null;  // Use mapped value
+    return departmentMappingKannada[departmentName] || null; 
 };
 
 const generateUniqueOptions = (columnKey) => {
     return [...new Set(researchData
         .filter(item => item && item[columnKey] !== undefined && isValidKannada(item[columnKey]) && item[columnKey].trim() !== '')  
         .map(item => {
-            if (columnKey === 'ವಿಭಾಗ') {  // Adjust based on the actual key for department in your data
-                return standardizeKannadaDepartment(item[columnKey]);  // Standardize department names
+            if (columnKey === 'ವಿಭಾಗ') {  
+                return standardizeKannadaDepartment(item[columnKey]);  
             }
-            return item[columnKey];  // For other columns, return the original value
+            return item[columnKey]; 
         })
     )];
 };
@@ -12845,37 +12806,14 @@ const generateUniqueOptions = (columnKey) => {
         checkboxContainer.appendChild(document.createElement('br'));
         container.appendChild(checkboxContainer);
 
-        // Hide additional options initially
-        // if (index >= 2) {
-        //     checkboxContainer.style.display = 'none'; // Hide additional options
-        // }
+       
     });
 
-    // Create and append the "More Options" button after the checkboxes
-    // const moreOptionsButton = document.createElement('button');
-    // moreOptionsButton.id = 'more-options-btn';
-    // moreOptionsButton.textContent = 'More Options';
-    // moreOptionsButton.onclick = () => toggleMoreOptions(containerId, moreOptionsButton); // Update the onclick function
-    // container.appendChild(moreOptionsButton);
+ 
 };
 
-// Toggle visibility of additional options
-function toggleMoreOptions(containerId, button) {
-    const options = document.querySelectorAll(`#${containerId} .filter-options > div`);
-    const showMore = button.textContent === "More Options";
 
-    options.forEach((option, index) => {
-        if (index >= 2) { // Show options starting from the 3rd one
-            option.style.display = showMore ? "" : "none"; // Show or hide
-        }
-    });
-
-    button.textContent = showMore ? "Show Less" : "More Options"; // Toggle button text
-}
- // Generate unique options and create filter checkboxes for each column
-//  createFilterOptions('filter-title', generateUniqueOptions('ಶೀರ್ಷಿಕೆ'), 'ಶೀರ್ಷಿಕೆ'); 
-//         createFilterOptions('filter-researchers', generateUniqueOptions('ಸಂಶೋಧಕರು'), 'ಸಂಶೋಧಕರು');
-//         createFilterOptions('filter-guides', generateUniqueOptions('ಮಾರ್ಗದರ್ಶಕರು'), 'ಮಾರ್ಗದರ್ಶಕರು');  
+  
         createFilterOptions('filter-department', generateUniqueOptions('ವಿಭಾಗ'), 'ವಿಭಾಗ');  
         
         
@@ -12926,19 +12864,7 @@ function toggleMoreOptions(containerId, button) {
 
 
 
-// Reset to show only the first two options
-function resetOptions(optionsId, buttonId) {
-    const options = document.querySelectorAll(`#${optionsId} div`);
 
-    options.forEach((option, index) => {
-        if (index >= 2) {
-            option.style.display = "none"; // Hide all but the first two
-        }
-    });
-
-    const button = document.getElementById(buttonId);
-    button.textContent = "More Options"; // Reset button text
-}
 const searchBar = document.getElementById('searchBar');
     searchBar.addEventListener('input', function() {
         const filter = searchBar.value.toLowerCase();
